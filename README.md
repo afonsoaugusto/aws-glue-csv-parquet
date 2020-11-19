@@ -59,6 +59,15 @@ aws iam create-access-key --user-name ${USERNAME_PROVISIONER}
 aws iam update-access-key \
     --access-key-id ACCESS_KEY_ID \
     --status Inactive --user-name ${USERNAME_PROVISIONER}
+
+# Para atualizar a policy caso necessário
+
+export USERNAME_PROVISIONER=provisioner
+export ACCOUNT_ID=`aws sts get-caller-identity --output text | awk '{print $1}'`
+aws iam create-policy-version \
+    --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/${USERNAME_PROVISIONER}_basics \
+    --policy-document file://policy-povisioner.json \
+    --set-as-default
 ```
 
 Após criar as credenciais para o usuário, pode ser exportado as variaveis:

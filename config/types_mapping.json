@@ -1,0 +1,5 @@
+{
+	"age": "integer",
+	"create_date": "timestamp",
+	"update_date": "timestamp"
+}

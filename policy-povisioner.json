@@ -2,6 +2,7 @@
     "Version": "2012-10-17",
     "Statement": [
         {
+            "Sid": "TerraformBackendRequired",
             "Effect": "Allow",
             "Action": [
                 "s3:GetObject",
@@ -11,6 +12,20 @@
             "Resource": [
                 "arn:aws:s3:::glue-terraform-tfstate/*",
                 "arn:aws:s3:::glue-terraform-tfstate"
+            ]
+        },
+        {
+            "Sid": "TerraformS3Actions",
+            "Effect": "Allow",
+            "Action": [
+                "s3:CreateBucket",
+                "s3:GetObject",
+                "s3:ListBucket",
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::glue-terraform/*",
+                "arn:aws:s3:::glue-terraform"
             ]
         }
     ]
