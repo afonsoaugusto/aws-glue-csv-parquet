@@ -1,6 +1,7 @@
 # aws-glue-csv-parquet
 
 [![CircleCI](https://circleci.com/gh/afonsoaugusto/aws-glue-csv-parquet.svg?style=svg)](https://circleci.com/gh/afonsoaugusto/aws-glue-csv-parquet)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/748cce6608224bfa87bf7d1e0ffc1caf)](https://www.codacy.com/gh/afonsoaugusto/aws-glue-csv-parquet/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=afonsoaugusto/aws-glue-csv-parquet&amp;utm_campaign=Badge_Grade)
 
 Dando prosseguimento no projeto 
 
@@ -53,4 +54,11 @@ aws iam create-access-key --user-name ${USERNAME_PROVISIONER}
 aws iam update-access-key \
     --access-key-id ACCESS_KEY_ID \
     --status Inactive --user-name ${USERNAME_PROVISIONER}
+```
+
+Após criar as credenciais para o usuário, pode ser exportado as variaveis:
+
+```sh
+export AWS_ACCESS_KEY_ID=<>
+export AWS_SECRET_ACCESS_KEY=<>
 ```
