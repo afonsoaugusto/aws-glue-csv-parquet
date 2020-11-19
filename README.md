@@ -1,5 +1,7 @@
 # aws-glue-csv-parquet
 
+[![CircleCI](https://circleci.com/gh/afonsoaugusto/aws-glue-csv-parquet.svg?style=svg)](https://circleci.com/gh/afonsoaugusto/aws-glue-csv-parquet)
+
 Dando prosseguimento no projeto 
 
 ## Submodulos do projeto
@@ -28,4 +30,27 @@ aws s3api put-bucket-encryption \
     --server-side-encryption-configuration '{"Rules": [{"ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "AES256"}}]}'
 aws s3api put-bucket-tagging --bucket $BUCKET_NAME --tagging 'TagSet=[{Key=project,Value=aws-glue-csv-parquet}]'
 
+export USERNAME_PROVISIONER=provisioner
+aws iam create-user \
+    --user-name $USERNAME_PROVISIONER \
+    --tags Key=project,Value=aws-glue-csv-parquet
+
+# obs: se o bucket utilizado não for o glue-terraform-tfstate, favor modificar no arquivo policy-provisioner.json e no vars.env
+
+aws iam create-policy \
+    --policy-name ${USERNAME_PROVISIONER}_basics \
+    --policy-document file://policy-povisioner.json
+
+export ACCOUNT_ID=`aws sts get-caller-identity --output text | awk '{print $1}'`
+aws iam attach-user-policy \
+    --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/${USERNAME_PROVISIONER}_basics \
+    --user-name ${USERNAME_PROVISIONER}
+
+aws iam create-access-key --user-name ${USERNAME_PROVISIONER}
+
+# Para inativar (Inactive) ou ativar (Active) as credenciais, é apenas executar:
+
+aws iam update-access-key \
+    --access-key-id ACCESS_KEY_ID \
+    --status Inactive --user-name ${USERNAME_PROVISIONER}
 ```
