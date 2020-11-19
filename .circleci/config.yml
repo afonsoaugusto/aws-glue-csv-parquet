@@ -16,3 +16,6 @@ workflows:
     jobs:
       - build:
           context: CI
+          filters:
+            branches:
+              only: main
