@@ -1,0 +1,18 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: afonsoaugusto/base-ci:latest
+    steps:
+      - checkout
+      - run:
+          name: deploy
+          command: |
+            make deploy
+
+workflows:
+  workflow:
+    jobs:
+      - build:
+          context: CI
