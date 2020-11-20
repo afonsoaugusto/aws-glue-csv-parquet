@@ -68,6 +68,13 @@ aws iam create-policy-version \
     --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/${USERNAME_PROVISIONER}_basics \
     --policy-document file://policy-povisioner.json \
     --set-as-default
+
+aws iam list-policy-versions \
+    --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/${USERNAME_PROVISIONER}_basics
+
+aws iam delete-policy-version \
+    --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/${USERNAME_PROVISIONER}_basics \
+    --version-id v4
 ```
 
 Após criar as credenciais para o usuário, pode ser exportado as variaveis:
@@ -76,3 +83,11 @@ Após criar as credenciais para o usuário, pode ser exportado as variaveis:
 export AWS_ACCESS_KEY_ID=<>
 export AWS_SECRET_ACCESS_KEY=<>
 ```
+
+
+## TODO
+
+* Separar os modulos em repositórios separados para reaproveitamento
+* Levar as definições criadas no Makefile (definições para terraform) para o projeto base-ci
+* Subir a versão do terraform devido a mesma que está sendo executada é a 12.29
+* Colocar na branch main os passos Plan

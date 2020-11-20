@@ -11,6 +11,10 @@ clean-terraform:
 	cd ./terraform/ && \
 	rm -rf .terraform/
 
+terraform-fmt:
+	cd ./terraform/ && \
+	terraform fmt -recursive
+
 terraform-init:
 	cd ./terraform/ && \
 	terraform init \
@@ -26,11 +30,11 @@ terraform-select-workspace: clean-terraform terraform-init
 
 terraform-plan: terraform-select-workspace
 	cd ./terraform/ && \
-	terraform plan -var-file=vars/global.tfvars -var-file=vars/${BRANCH_NAME}.tfvars
+	terraform plan -var-file=vars/global.tfvars -var-file=vars/${BRANCH_NAME}.tfvars -out tf.plan
 
 deploy-terraform: terraform-select-workspace
 	cd ./terraform/ && \
-	terraform apply -auto-approve -var-file=vars/global.tfvars -var-file=vars/${BRANCH_NAME}.tfvars
+	terraform apply -auto-approve tf.plan
 	
 destroy-terraform: terraform-select-workspace
 	cd ./terraform/ && \
@@ -38,5 +42,6 @@ destroy-terraform: terraform-select-workspace
 
 clean: clean-terraform
 plan: terraform-plan
-deploy: deploy-terraform
+apply: deploy-terraform
+deploy: plan apply
 destroy: destroy-terraform
