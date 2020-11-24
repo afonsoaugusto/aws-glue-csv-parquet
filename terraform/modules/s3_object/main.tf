@@ -1,4 +1,4 @@
-resource "aws_s3_bucket_object" "s3_object" {
+resource "aws_s3_bucket_object" "this" {
   bucket = var.s3_id
   acl    = var.s3_acl
   key    = var.key

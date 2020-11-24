@@ -1,1 +1,1 @@
-FROM afonsoaugusto/base-ci:71dc2c7-master
+FROM afonsoaugusto/base-ci:9d3f640-master

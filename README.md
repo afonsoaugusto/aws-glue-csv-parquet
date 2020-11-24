@@ -59,9 +59,12 @@ aws iam create-access-key --user-name ${USERNAME_PROVISIONER}
 aws iam update-access-key \
     --access-key-id ACCESS_KEY_ID \
     --status Inactive --user-name ${USERNAME_PROVISIONER}
+```
 
-# Para atualizar a policy caso necessário
+### Para atualizar a policy caso necessário
 
+<details>
+```bash
 export USERNAME_PROVISIONER=provisioner
 export ACCOUNT_ID=`aws sts get-caller-identity --output text | awk '{print $1}'`
 aws iam create-policy-version \
@@ -76,6 +79,9 @@ aws iam delete-policy-version \
     --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/${USERNAME_PROVISIONER}_basics \
     --version-id v4
 ```
+</details>
+
+## Para atualizar a policy caso necessário
 
 Após criar as credenciais para o usuário, pode ser exportado as variaveis:
 
@@ -84,10 +90,14 @@ export AWS_ACCESS_KEY_ID=<>
 export AWS_SECRET_ACCESS_KEY=<>
 ```
 
+### Para atualizar a policy caso necessário
 
 ## TODO
 
 * Separar os modulos em repositórios separados para reaproveitamento
+* Melhorar o template do modulo de iam para ser mais generico
 * Levar as definições criadas no Makefile (definições para terraform) para o projeto base-ci
 * Subir a versão do terraform devido a mesma que está sendo executada é a 12.29
-* Colocar na branch main os passos Plan
+* Colocar na branch main o passo Plan
+* Após colocar passo plan no pipeline main, verificar se é necessário aprovação manual para o apply
+* Criar modulos para os itens referentes ao glue
