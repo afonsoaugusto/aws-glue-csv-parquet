@@ -1,6 +1,6 @@
-import boto3
 import json
 import sys
+import boto3
 from awsglue.context import GlueContext
 from awsglue.dynamicframe import DynamicFrame
 from awsglue.job import Job
