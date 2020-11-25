@@ -40,16 +40,16 @@ column_sort_values = "update_date"
 column_drop_duplicates = "id"
 time_format = "yyyy-MM-dd HH:mm:ss.SSSSSS"
 
-BUCKET_NAME = 'glue-terraform-scripts'
-KEY = config_types_mapping_filename
+bucket_name_scripts = 'glue-terraform-scripts'
+key_config = config_types_mapping_filename
 
 s3 = boto3.client('s3')
 
-response = s3.get_object(Bucket = BUCKET_NAME, Key = KEY)
+response = s3.get_object(Bucket = bucket_name_scripts, Key = key_config)
 content = response['Body']
 jsonObject = json.loads(content.read())
-print(jsonObject)
 
+# Spark objects
 sc = SparkContext()
 glueContext = GlueContext(sc)
 spark = glueContext.spark_session
@@ -64,17 +64,14 @@ sdf_row_data.select(column_sort_values).show()
 sdf_conveted_column_to_sort_data = sdf_row_data.withColumn(column_sort_values, col(column_sort_values).cast("timestamp"))
 sdf_sorted_data = sdf_conveted_column_to_sort_data.orderBy(desc(column_sort_values))
 
-print(sdf_sorted_data.show())
 
 sdf_deduplicate_data = sdf_sorted_data.drop_duplicates([column_drop_duplicates])
 
 types_mapping_dict = load_mapping_types(jsonObject, sdf_deduplicate_data.dtypes)
 
-print(types_mapping_dict)
 
 df_deduplicate_data = DynamicFrame.fromDF(sdf_deduplicate_data, glueContext, "df_deduplicate_data")
-print(type(df_deduplicate_data))
-print(type(raw_dynamic_frame))
+
 df_converted_type_data = ApplyMapping.apply(frame = df_deduplicate_data, mappings = types_mapping_dict, transformation_ctx = "df_converted_type_data")
 
 datasink = glueContext.write_dynamic_frame.from_options(frame = df_converted_type_data, connection_type = "s3", connection_options = {"path": "s3://glue-terraform/data/output"}, format = "parquet", transformation_ctx = "datasink")

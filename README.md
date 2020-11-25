@@ -103,7 +103,13 @@ O comando make deploy irá realizar o terraform plan e apply do projeto.
 make deploy
 ```
 
-### Para atualizar a policy caso necessário
+### Executando os jobs
+
+Após executar o deploy teremos:
+
+- Database glue
+- Crawler glue
+- Job glue
 
 ## TODO
 
@@ -114,4 +120,5 @@ make deploy
 * Colocar na branch main o passo Plan
 * Após colocar passo plan no pipeline main, verificar se é necessário aprovação manual para o apply
 * Criar modulos para os itens referentes ao glue
-
+* Melhorar o script de etl passando vários valores como parametros
+* Adicionar anotações no script etl para ter o diagrama dinamico gerado pela interface do glue e também melhorar a documentação
