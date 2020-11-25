@@ -2,6 +2,7 @@
     "Version": "2012-10-17",
     "Statement": [
         {
+            "Sid": "TerraformBackendRequired",
             "Effect": "Allow",
             "Action": [
                 "s3:GetObject",
@@ -12,6 +13,39 @@
                 "arn:aws:s3:::glue-terraform-tfstate/*",
                 "arn:aws:s3:::glue-terraform-tfstate"
             ]
-        }
+        },
+        {
+            "Sid": "TerraformS3Actions",
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::glue-terraform/*",
+                "arn:aws:s3:::glue-terraform",
+                "arn:aws:s3:::glue-terraform-scripts/*",
+                "arn:aws:s3:::glue-terraform-scripts"
+            ]
+        },
+        {
+            "Sid": "TerraformIamActions",
+            "Effect": "Allow",
+            "Action": [
+                "iam:*"
+            ],
+            "Resource": [
+               "*"
+            ]
+        },
+        {
+            "Sid": "TerraformGlueActions",
+            "Effect": "Allow",
+            "Action": [
+                "glue:*"
+            ],
+            "Resource": [
+               "*"
+            ]
+        }        
     ]
 }

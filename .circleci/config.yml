@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: afonsoaugusto/base-ci:latest
+      - image: afonsoaugusto/base-ci:9d3f640-master
     steps:
       - checkout
       - run:

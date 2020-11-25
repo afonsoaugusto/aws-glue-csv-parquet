@@ -15,7 +15,10 @@
 	"extensions": [
 		"ms-azuretools.vscode-docker",
 		"hashicorp.terraform",
-		"erd0s.terraform-autocomplete"
+		"erd0s.terraform-autocomplete",
+		"ms-python.python",
+		"4ops.terraform",
+		"run-at-scale.terraform-doc-snippets"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
