@@ -1,14 +1,13 @@
-import sys
-from awsglue.transforms import *
-from awsglue.utils import getResolvedOptions
-from pyspark.context import SparkContext
-from pyspark.sql.functions import to_timestamp, desc, col
-from awsglue.context import GlueContext
-from awsglue.job import Job
 import boto3
 import json
+import sys
+from awsglue.context import GlueContext
 from awsglue.dynamicframe import DynamicFrame
-
+from awsglue.job import Job
+from awsglue.transforms import ApplyMapping
+from awsglue.utils import getResolvedOptions
+from pyspark.context import SparkContext
+from pyspark.sql.functions import desc, col
 
 def join_with_columns_origin(types_mapping:dict, list_columns_origin:list) -> list:
     
@@ -24,8 +23,8 @@ def join_with_columns_origin(types_mapping:dict, list_columns_origin:list) -> li
 
     return types_mapping_with_columns_origin
 
-def load_mapping_types(types_mapping_dict:dict, list_columns_origin:list) -> list:
-    types_mapping_with_columns_origin_list = join_with_columns_origin(types_mapping_dict, list_columns_origin)
+def load_mapping_types(mapping_dict:dict, list_columns_origin:list) -> list:
+    types_mapping_with_columns_origin_list = join_with_columns_origin(mapping_dict, list_columns_origin)
     
     return types_mapping_with_columns_origin_list
 
