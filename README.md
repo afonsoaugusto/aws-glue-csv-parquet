@@ -15,6 +15,8 @@ Utilizo um projeto meu `base-ci` só para ter o container base e algumas variave
 
 ## Execução do projeto
 
+### Criação do usuário provisioner
+
 Para executar o projeto é necessário realizar o deploy do mesmo.
 E para tal é necessário um usuário na AWS para ser responsavel por deployar o projeto.
 
@@ -61,9 +63,10 @@ aws iam update-access-key \
     --status Inactive --user-name ${USERNAME_PROVISIONER}
 ```
 
-### Para atualizar a policy caso necessário
+#### Para atualizar a policy caso necessário
 
 <details>
+
 ```bash
 export USERNAME_PROVISIONER=provisioner
 export ACCOUNT_ID=`aws sts get-caller-identity --output text | awk '{print $1}'`
@@ -81,13 +84,23 @@ aws iam delete-policy-version \
 ```
 </details>
 
-## Para atualizar a policy caso necessário
+### Deploy do ambiente
 
-Após criar as credenciais para o usuário, pode ser exportado as variaveis:
+Após criar as credenciais para o usuário, o mesmo pode ser exportado as variaveis para executar o deploy:
 
 ```sh
 export AWS_ACCESS_KEY_ID=<>
 export AWS_SECRET_ACCESS_KEY=<>
+export AWS_PAGER=""
+export AWS_REGION=us-east-1
+```
+
+Após as variaveis estarem exportadas, o deploy pode ser feito com o comando *`make deploy`*.
+
+O comando make deploy irá realizar o terraform plan e apply do projeto.
+
+```sh
+make deploy
 ```
 
 ### Para atualizar a policy caso necessário
@@ -101,3 +114,4 @@ export AWS_SECRET_ACCESS_KEY=<>
 * Colocar na branch main o passo Plan
 * Após colocar passo plan no pipeline main, verificar se é necessário aprovação manual para o apply
 * Criar modulos para os itens referentes ao glue
+
