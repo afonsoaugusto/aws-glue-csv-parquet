@@ -3,7 +3,7 @@
 [![CircleCI](https://circleci.com/gh/afonsoaugusto/aws-glue-csv-parquet.svg?style=svg)](https://circleci.com/gh/afonsoaugusto/aws-glue-csv-parquet)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/748cce6608224bfa87bf7d1e0ffc1caf)](https://www.codacy.com/gh/afonsoaugusto/aws-glue-csv-parquet/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=afonsoaugusto/aws-glue-csv-parquet&amp;utm_campaign=Badge_Grade)
 
-Dando prosseguimento no projeto 
+Dando prosseguimento no projeto proposto no repositório [data-engineer](https://github.com/afonsoaugusto/data-engineer), apresento a solução utilizando AWS Glue e Terraform como ferramenta de provisionamento.
 
 ## Submodulos do projeto
 
@@ -103,13 +103,63 @@ O comando make deploy irá realizar o terraform plan e apply do projeto.
 make deploy
 ```
 
+![cicleci](img/circle-ci-deploy.png)
+
+![buckets](img/buckets-s3.png)
+
 ### Executando os jobs
 
 Após executar o deploy teremos:
 
-- Database glue
-- Crawler glue
-- Job glue
+#### Database glue
+
+![databases](img/databases.png)
+
+#### Crawler glue
+
+![Crawler](img/Crawler.png)
+
+#### Job glue
+
+![Job](img/Job.png)
+
+Com estes objetos é necessário executar o crawler, que após ele executar teremos uma tabela adicionada no database.
+
+```bash
+aws glue get-crawler --output yaml --name aws-glue-csv-parquet --query 'Crawler.[Name, State]'
+aws glue start-crawler --name aws-glue-csv-parquet
+```
+
+![crawler-execution](img/crawler-execution.png)
+
+![table](img/table.png)
+
+![table](img/table-2.png)
+
+Após o crawler terminar, podemos executar o job.
+
+```bash
+aws glue get-job --job-name aws-glue-csv-parquet --output yaml
+aws glue start-job-run --job-name aws-glue-csv-parquet
+```
+
+![getJob](img/getJob.png)
+
+![jobExecution](img/jobExecution.png)
+
+![jobExecution-terminal](img/jobExecution-terminal.png)
+
+Após a conclusão do job, teremos no folder output no bucket o resultado do etl.
+
+![bucket-output](img/bucket-output.png)
+
+Você pode copiar os arquivos localmente se preferir.
+
+```bash
+aws s3 sync s3://glue-terraform/data/output/ .
+```
+
+Estes passos poderiam ser invocados por lambda, trigger ou executados em um pipeline separado.
 
 ## TODO
 
@@ -122,3 +172,4 @@ Após executar o deploy teremos:
 * Criar modulos para os itens referentes ao glue
 * Melhorar o script de etl passando vários valores como parametros
 * Adicionar anotações no script etl para ter o diagrama dinamico gerado pela interface do glue e também melhorar a documentação
+* Revisitar as definições de capacidade do glue, devido o mesmo estar com a minima capacidade possivel devido ao escopo do problema e preservar a minha conta
